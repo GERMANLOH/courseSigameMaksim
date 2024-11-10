@@ -15,9 +15,11 @@ PLATFORM_WIDTH = 200
 PLATFORM_HEIGHT = 30
 BALL_WIDTH = 50
 BALL_HEIGHT = 50
-FPS = 15
+FPS = 30
 
-def game(screen,clock):
+
+
+def game(screen,clock,assets):
     
 
     counter = 0
@@ -57,13 +59,27 @@ def game(screen,clock):
 
         BALL_Y += speed_vector.y 
         BALL_X += speed_vector.x
-
-        screen.fill(ORANGE)
         
-        platform = pg.Rect(PLATFORM_X, PLATFORM_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-        pg.draw.rect(screen ,YELLOW, platform)
-        ball = pg.Rect(BALL_X, BALL_Y, BALL_WIDTH, BALL_HEIGHT)
-        pg.draw.rect(screen ,RED, ball)
+
+        #screen.fill(WHITE)
+        screen.blit(assets['background'], (0,0))
+        
+        # platform = pg.Rect(PLATFORM_X, PLATFORM_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    
+
+
+        # pg.draw.rect(screen ,YELLOW, platform)
+
+        ball = assets['ball'].get_rect()
+        ball.x=BALL_X
+        ball.y=BALL_Y
+        # ball = pg.Rect(BALL_X, BALL_Y, BALL_WIDTH, BALL_HEIGHT)
+        screen.blit(assets['ball'],ball)
+        # pg.draw.rect(screen ,RED, ball)
+        platform = assets['panel'].get_rect()
+        platform.x=PLATFORM_X
+        platform.y=PLATFORM_Y
+        screen.blit(assets['panel'],platform)
 
         ball_center = (ball.x + ball.width/2, ball.y + ball.height/2)
         platform_center = (platform.x + platform.width/2, platform.y + platform.height/2)
@@ -93,9 +109,15 @@ def game(screen,clock):
 
 if __name__=='__main__':
     screen_out = pg.display.set_mode((SCREEN_WIDTH , SCREEN_HEIGHT))
+    assets = {
+        'ball' : pg.transform.scale(pg.image.load('ball.png').convert_alpha(),(BALL_WIDTH,BALL_HEIGHT)),
+        'background' :pg.transform.scale(pg.image.load('background.png').convert(),(SCREEN_WIDTH,SCREEN_HEIGHT)),
+        'panel' : pg.image.load('pannel.png').convert(),
+    }
     clock_out= pg.time.Clock()
     while True:
-        game(screen_out,clock_out)
+        
+        game(screen_out,clock_out,assets)
         finish_text = def_font.render('GAME OVER' , False ,(GREEN))
         screen_out.blit(finish_text, (SCREEN_WIDTH/2-60, SCREEN_HEIGHT/2))
         pg.display.flip()
