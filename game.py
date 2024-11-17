@@ -107,7 +107,7 @@ def game(screen,clock,assets):
             BALL_DIRECTION =BALL_DIRECTION .reflect(pg.math.Vector2(-1,0))
 
         screen.blit(text_surface,(20,20))
-        screen.blit(time_surface,(50,20))
+        screen.blit(time_surface,(450,20))
         pg.display.flip()  
         clock.tick(FPS)
     return counter
